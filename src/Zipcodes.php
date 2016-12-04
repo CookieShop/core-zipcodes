@@ -9,7 +9,7 @@
 namespace Adteam\Core\Zipcodes;
 
 use Zend\ServiceManager\ServiceManager;
-use Adteam\Core\Zipcodes\Entity\Zipcodes;
+use Adteam\Core\Zipcodes\Entity\ZipCodes as ZipcodesEntity;
 use Doctrine\ORM\EntityManager;
 
 class Zipcodes
@@ -24,8 +24,26 @@ class Zipcodes
         $this->em = $service->get(EntityManager::class);        
     }
     
-    public function fetchAll()
+    /**
+     * 
+     * @param type $zipcode
+     * @return type
+     */
+    public function fetchAll($zipcode)
     {
-        return $this->em->getRepository(CoreCedis::class)->fetchAll();
+        $zipcode = isset($zipcode['query'])?$zipcode['query']:'';
+        return $this->em->getRepository(ZipcodesEntity::class)
+                ->fetchAll($zipcode);
+    }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function fetchByZipCode($id)
+    {
+        return $this->em->getRepository(ZipcodesEntity::class)
+                ->fetchByZipCode($id);        
     }
 }
