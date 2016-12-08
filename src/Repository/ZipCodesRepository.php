@@ -28,9 +28,10 @@ class ZipCodesRepository extends EntityRepository
                     "U.id, U.zipCode, U.location, U.type,U.town,U.city,U.state")
                 ->setFirstResult(0)
                 ->setMaxResults(100)
-                ->where('U.zipCode LIKE :zipcode')
+                ->addGroupBy('U.zipCode')
+                ->having('U.zipCode LIKE :zipcode')
                 ->setParameter('zipcode', $zipcode.'%')
-                ->getQuery()->getResult(); 
+                ->getQuery()->getResult();
     }
     
     /**
